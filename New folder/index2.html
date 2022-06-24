@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+
+            *{
+                box-sizing: border-box;
+                padding: 0;
+                margin: 0;
+            }
+
+            :root{
+                --second:90deg;
+                --minutes:90deg;
+                --hours:90deg;
+
+            }
+
+
+            html {
+                background: #282828;
+                text-align: center;
+                font-size: 10px;
+            }
+
+            body {
+                margin: 0;
+                font-size: 2rem;
+                display: flex;
+                flex: 1;
+                min-height: 100vh;
+                align-items: center;
+            }
+
+            .clock {
+                width: 30rem;
+                height: 30rem;
+                border: 7px solid #282828;
+                box-shadow: -4px -4px 10px rgb(67, 67, 67),inset 4px 4px 10px rgba(0,0,0,0.5),inset -4px -4px 10px rgba(67,67,67,0.5),4px 4px 10px rgba(0,0,0,0.3);;
+
+
+                margin: 50px auto;
+                position: relative;
+                padding: 2rem;
+                border-radius: 50%;
+ 
+            }
+
+            .outer-clock-face {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                border-radius: 100%;
+                background: #282828;
+                overflow: hidden;
+            }
+
+            .outer-clock-face::after {
+
+                transform: rotate(270deg);
+            }
+
+            .outer-clock-face::before,
+            .outer-clock-face::after,
+            .outer-clock-face .marking{
+                content: '';
+                position: absolute;
+                width: 5px;
+                height: 100%;
+                background: #1df52f;
+                z-index: 0;
+                left: 49%;
+            }
+
+
+            .outer-clock-face .marking {    
+                background: #bdbdcb;
+                width: 3px;
+            }
+
+            .outer-clock-face .marking.marking-one {
+                transform: rotate(30deg)
+            }
+
+            .outer-clock-face .marking.marking-two {
+                transform: rotate(60deg)
+            }
+
+            .outer-clock-face .marking.marking-three {
+                transform: rotate(120deg)
+            }
+
+            .outer-clock-face .marking.marking-four {
+                transform: rotate(150deg)
+            }
+
+            .inner-clock-face{
+                background-color: #282828;
+                position: absolute;
+                width: 80%;
+                height: 80%;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                border-radius: 50%;
+                z-index: 1;
+            }
+
+            .inner-clock-face::before{
+                content: "";
+                position: absolute;
+                left: 50%;
+                top: 53%;
+                height: 18px;
+                width: 18px;
+                background-color: #4d4b63;
+                border-radius: 50%;
+
+                transform: translate(-50%,-50%);
+                z-index: 999;
+
+            }
+
+            .hand{
+                position: absolute;
+                right: 50%;
+                width: 40%;
+                top: 50%;
+                transform-origin:100%;
+                border-radius: 6px;
+                background-color: #ffffff;
+                z-index: 55;
+                transform: rotate(90deg);
+            }
+
+            .hand.second{
+                background-color: #c76a1e;
+                width: 45%;
+                height: 2px;
+
+            }
+
+            .hand.min{
+                width: 40%;
+                height: 3px;
+                z-index: 555;
+
+            }
+
+            .hand.hour{
+                height: 6px;
+                width: 30%;
+                z-index: 555;
+
+
+            }
+
+            
+
+
+
+            
+        </style>
+    </head>
+    <body>
+        <div class="clock">
+            <div class="outer-clock-face">
+                <div class="marking marking-one"></div>
+                <div class="marking marking-two">
+                    <div></div>
+                </div>
+                <div class="marking marking-three"></div>
+                <div class="marking marking-four"></div>
+                <div class="inner-clock-face">
+                    <div class="hand hour"></div>
+                    <div class="hand min"></div>
+                    <div class="hand second"></div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script>
+
+            function moveTime(){
+
+                setInterval(function(){
+                    let secondHand = document.querySelector('.second');
+                    let minsHand = document.querySelector('.min');
+                    let hourHand = document.querySelector('.hour');
+
+                    let date = new Date();
+
+                    let ms = date.getMilliseconds();
+                    let second = date.getSeconds();
+                    let secondDegrees=(second*6)+ ((ms/1000)*6) +90
+                    secondHand.style.transform = `rotate(${secondDegrees}deg)`;
+
+
+                    let min=date.getMinutes()
+                    let minDegrees=(min*6)+ ((second/60)*6)+90
+                    minsHand.style.transform = `rotate(${minDegrees}deg)`;
+
+
+                    let hour=date.getHours()
+                    let hourDegrees=((+hour > 12 ? hour-12 : hour )* 30)+((min/60)*30)+90
+                    console.log(hourDegrees)
+
+
+                    hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+
+                },1)
+
+
+
+            }
+
+            moveTime()
+     
+
+
+
+
+        </script>
+
+
+
+
+    </body>
+</html>
